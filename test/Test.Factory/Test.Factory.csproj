@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="FactoryTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Test.Common\Test.Common.csproj">

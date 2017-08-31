@@ -1,14 +1,12 @@
-﻿
-using Test.Common;
-using Test.IBLL;
+﻿using Test.IBLL;
 
 namespace Test.Factory
 {
-    public class Test
+    public class FactoryTest
     {
         private readonly ICsOrderBll _csOrderBll;
 
-        public Test(ICsOrderBll csOrderBll)
+        public FactoryTest(ICsOrderBll csOrderBll)
         {
             _csOrderBll = csOrderBll;
         }

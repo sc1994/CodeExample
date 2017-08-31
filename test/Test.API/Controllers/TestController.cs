@@ -1,13 +1,14 @@
-﻿using System.Web.Mvc;
-using Test.Common;
+﻿using Test.Common;
+using Test.Factory;
+using System.Web.Mvc;
 
 namespace Test.API.Controllers
 {
     public class TestController : Controller
     {
-        private readonly Factory.Test _test;
+        private readonly FactoryTest _test;
 
-        public TestController(Factory.Test test)
+        public TestController(FactoryTest test)
         {
             _test = test;
         }
