@@ -36,7 +36,7 @@ namespace Test.API.Controllers
 
 ```
 
-##### Test.Factory/FactoryTest
+##### Test.Factory/FactoryTest.cs
 ```
 using Test.IBLL;
 
