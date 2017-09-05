@@ -5,34 +5,31 @@ CodeGeneration 项目生成代码展示
 [点我查看](https://github.com/sc1994/CodeGeneration)
 
 ## 说明
-- Test.Web没有去实现, (实现类似Test.API)
-- Test.API 控制器中的 Test 实现了一次读库的调用, 是可以调通的(你本地没库是调不通的~)
-- API 只引用了 Factory (Model,Common 是通用的) 
-- 在 Factory 中去 调用IBLL (使用了DI 所以我们不需要去实例化接口)
+- Test.API/Test.Web 控制器Home/Haha中的  实现了一次读库的调用, 是可以调通的(你本地没库是调不通的~)
+- Web/API 只引用了 Factory以及IBLL(只使用一个简单IBLL方法,简化调用过程) (Model,Common 是通用的) 
+- 在 Factory 中去 调用IBLL 
 
 ## 代码片段
-##### Test.API/Controller/TestController.cs
+##### Test.API/Controller/HomeController.cs
 ```
-using Test.Common;
+using System.Web.Http;
 using Test.Factory;
-using System.Web.Mvc;
 
 namespace Test.API.Controllers
 {
-    public class TestController : Controller
+    public class HomeController : ApiController
     {
-        private readonly FactoryTest _test;
+        private readonly FactoryClass1 _factory;
 
-        public TestController(FactoryTest test)
+        public HomeController(FactoryClass1 factory)
         {
-            _test = test;
+            _factory = factory;
         }
 
-
-        // GET: Test
-        public ActionResult Index()
+        [HttpGet]
+        public IHttpActionResult Haha()
         {
-            return Content(_test.GetList().ToJson());
+            return Json(_factory.GetList());
         }
     }
 }
@@ -42,24 +39,27 @@ namespace Test.API.Controllers
 ##### Test.Factory/FactoryTest.cs
 ```
 using Test.IBLL;
+using Test.Model.DBModel;
+using System.Collections.Generic;
 
 namespace Test.Factory
 {
-    public class FactoryTest
+    public class FactoryClass1
     {
         private readonly ICsOrderBll _csOrderBll;
 
-        public FactoryTest(ICsOrderBll csOrderBll)
+        public FactoryClass1(ICsOrderBll csOrderBll)
         {
             _csOrderBll = csOrderBll;
         }
 
-        public string GetList()
+        public IEnumerable<CsOrder> GetList()
         {
-            return _csOrderBll.GetModelList("").Count.ToString();
+            return _csOrderBll.GetModelList("");
         }
     }
 }
+
 ```
 
 
