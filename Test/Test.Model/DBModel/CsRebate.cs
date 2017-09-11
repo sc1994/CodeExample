@@ -13,22 +13,22 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 返利编号 主键 自动增长
         /// </summary>
-        public int RebateId { get; set; }
+        public int RebateId { get; set; } = ToInt("");
 
         /// <summary>
         /// 用户编号
         /// </summary>
-        public int UserId { get; set; }
+        public int UserId { get; set; } = ToInt("");
 
         /// <summary>
         /// 返利金钱
         /// </summary>
-        public decimal RebateMoney { get; set; }
+        public decimal RebateMoney { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 购买重量
         /// </summary>
-        public decimal RebateWeight { get; set; }
+        public decimal RebateWeight { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 返利时间

@@ -13,17 +13,17 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 商品价格编号
         /// </summary>
-        public int PriceId { get; set; }
+        public int PriceId { get; set; } = ToInt("");
 
         /// <summary>
         /// 商品价格
         /// </summary>
-        public decimal PriceNumber { get; set; }
+        public decimal PriceNumber { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 商品编号
         /// </summary>
-        public int ProductId { get; set; }
+        public int ProductId { get; set; } = ToInt("");
 
         /// <summary>
         /// 价格时间

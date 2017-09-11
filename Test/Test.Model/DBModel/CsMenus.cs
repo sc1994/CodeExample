@@ -13,37 +13,37 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 菜单编号 主键 自动增长
         /// </summary>
-        public int MenuId { get; set; }
+        public int MenuId { get; set; } = ToInt("");
 
         /// <summary>
         /// 菜单名称
         /// </summary>
-        public string MenuName { get; set; } = string.Empty;
+        public string MenuName { get; set; } = "";
 
         /// <summary>
         /// 菜单路径
         /// </summary>
-        public string MenuUrl { get; set; } = string.Empty;
+        public string MenuUrl { get; set; } = "";
 
         /// <summary>
         /// 菜单图标
         /// </summary>
-        public string MenuIcon { get; set; } = string.Empty;
+        public string MenuIcon { get; set; } = "";
 
         /// <summary>
         /// 父级菜单编号,根目录编号为0
         /// </summary>
-        public int MenuParId { get; set; }
+        public int MenuParId { get; set; } = ToInt("");
 
         /// <summary>
         /// 状态 1表示可用 2表示不可用
         /// </summary>
-        public int MenuState { get; set; }
+        public int MenuState { get; set; } = ToInt("");
 
         /// <summary>
         /// 备注
         /// </summary>
-        public string Remarks { get; set; } = string.Empty;
+        public string Remarks { get; set; } = "";
 
     }
 

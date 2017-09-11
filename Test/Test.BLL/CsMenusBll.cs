@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsMenusBll : BaseBll<CsMenus, CsMenusEnum, int>, ICsMenusBll
     {
-        public CsMenusBll() : base(new CsMenusDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsMenusDal _dal;
+        public CsMenusBll(CsMenusDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsMenusBll(IBaseDal<CsMenus, CsMenusEnum, int> dal) : base(dal) { }
     }
 }

@@ -13,27 +13,27 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 订单编号,由下单日期自动生成
         /// </summary>
-        public string OrderId { get; set; } = string.Empty;
+        public string OrderId { get; set; } = "";
 
         /// <summary>
         /// 下单用户
         /// </summary>
-        public int UserId { get; set; }
+        public int UserId { get; set; } = ToInt("");
 
         /// <summary>
         /// 总金额
         /// </summary>
-        public decimal TotalMoney { get; set; }
+        public decimal TotalMoney { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 优惠金额
         /// </summary>
-        public decimal DiscountMoney { get; set; }
+        public decimal DiscountMoney { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 实际金额
         /// </summary>
-        public decimal ActualMoney { get; set; }
+        public decimal ActualMoney { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 下单时间
@@ -43,7 +43,7 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 订单状态 1已下单未至支付 2支付成功 3 配货中 4 已发货
         /// </summary>
-        public int OrderState { get; set; }
+        public int OrderState { get; set; } = ToInt("");
 
     }
 

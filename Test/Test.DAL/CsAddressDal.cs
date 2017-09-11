@@ -1,9 +1,10 @@
 using Dapper;
-using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using Test.IDAL;
 using Test.Model.DBModel;
 using Test.Common;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Test.DAL
@@ -14,16 +15,12 @@ namespace Test.DAL
     public partial class CsAddressDal : ICsAddressDal
     {
         public bool Exists(int primaryKey)
-        {
-            var strSql = "SELECT COUNT(1) FROM CrabShop.dbo.[CsAddress] WHERE 1 = @primaryKey";
-            var parameters = new { primaryKey };
-            return DbClient.Excute(strSql, parameters) > 0;
-        }
+            => DbClient.ExecuteScalar<int>("SELECT COUNT(1) FROM CrabShop.dbo.[CsAddress] WHERE 1 = @primaryKey", new { primaryKey }) > 0;
 
         public bool ExistsByWhere(string where)
             => DbClient.ExecuteScalar<int>($"SELECT COUNT(1) FROM CrabShop.dbo.[CsAddress] WHERE 1 = 1 {where};") > 0;
 
-        public int Add(CsAddress model)
+        public int Add(CsAddress model, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("INSERT INTO CrabShop.dbo.[CsAddress] (");
@@ -31,19 +28,19 @@ namespace Test.DAL
             strSql.Append(") VALUES (");
             strSql.Append("@Province,@City,@District,@Details,@Consignee,@ConSex,@TelPhone,@IsDefault);");
             strSql.Append("SELECT @@IDENTITY");
-            return DbClient.ExecuteScalar<int>(strSql.ToString(), model);
+            return DbClient.ExecuteScalar<int>(strSql.ToString(), model, conn, transaction);
         }
 
-        public bool Update(CsAddress model)
+        public bool Update(CsAddress model, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("UPDATE CrabShop.dbo.[CsAddress] SET ");
             strSql.Append("Province = @Province,City = @City,District = @District,Details = @Details,Consignee = @Consignee,ConSex = @ConSex,TelPhone = @TelPhone,IsDefault = @IsDefault");
             strSql.Append(" WHERE AddressId = @AddressId");
-            return DbClient.Excute(strSql.ToString(), model) > 0;
+            return DbClient.Excute(strSql.ToString(), model, conn, transaction) > 0;
         }
 
-        public bool Update(Dictionary<CsAddressEnum, object> updates, string where)
+        public bool Update(Dictionary<CsAddressEnum, object> updates, string where, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("UPDATE CrabShop.dbo.[CsAddress] SET ");
@@ -55,29 +52,20 @@ namespace Test.DAL
             }
             strSql.Remove(strSql.Length - 1, 1);
             strSql.Append($" WHERE 1=1 {where}");
-            return DbClient.Excute(strSql.ToString(), para) > 0;
+            return DbClient.Excute(strSql.ToString(), para, conn, transaction) > 0;
         }
 
-        public bool Delete(int primaryKey)
-        {
-            var strSql = "DELETE FROM CrabShop.dbo.[CsAddress] WHERE AddressId = @primaryKey";
-            return DbClient.Excute(strSql, new { primaryKey }) > 0;
-        }
+        public bool Delete(int primaryKey, IDbConnection conn = null, IDbTransaction transaction = null)
+            => DbClient.Excute("DELETE FROM CrabShop.dbo.[CsAddress] WHERE AddressId = @primaryKey", new { primaryKey }, conn, transaction) > 0;
 
-        public int DeleteByWhere(string where)
-            => DbClient.Excute($"DELETE FROM CrabShop.dbo.[CsAddress] WHERE 1 = 1 {where}");
+        public int DeleteByWhere(string where, IDbConnection conn = null, IDbTransaction transaction = null)
+            => DbClient.Excute($"DELETE FROM CrabShop.dbo.[CsAddress] WHERE 1 = 1 {where}", null, conn, transaction);
 
         public CsAddress GetModel(int primaryKey)
-        {
-            var strSql = "SELECT * FROM CrabShop.dbo.[CsAddress] WHERE AddressId = @primaryKey";
-            return DbClient.Query<CsAddress>(strSql, new { primaryKey }).FirstOrDefault();
-        }
+            => DbClient.Query<CsAddress>("SELECT * FROM CrabShop.dbo.[CsAddress] WHERE AddressId = @primaryKey", new { primaryKey }).FirstOrDefault();
 
         public List<CsAddress> GetModelList(string where)
-        {
-            var strSql = $"SELECT * FROM CrabShop.dbo.[CsAddress] WHERE 1 = 1 {where}";
-            return DbClient.Query<CsAddress>(strSql).ToList();
-        }
+            => DbClient.Query<CsAddress>($"SELECT * FROM CrabShop.dbo.[CsAddress] WHERE 1 = 1 {where}").ToList();
 
         public List<CsAddress> GetModelPage(CsAddressEnum order, string where, int pageIndex, int pageSize, out int total)
         {

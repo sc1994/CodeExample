@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsCartBll : BaseBll<CsCart, CsCartEnum, int>, ICsCartBll
     {
-        public CsCartBll() : base(new CsCartDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsCartDal _dal;
+        public CsCartBll(CsCartDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsCartBll(IBaseDal<CsCart, CsCartEnum, int> dal) : base(dal) { }
     }
 }

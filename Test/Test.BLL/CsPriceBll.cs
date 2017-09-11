@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsPriceBll : BaseBll<CsPrice, CsPriceEnum, int>, ICsPriceBll
     {
-        public CsPriceBll() : base(new CsPriceDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsPriceDal _dal;
+        public CsPriceBll(CsPriceDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsPriceBll(IBaseDal<CsPrice, CsPriceEnum, int> dal) : base(dal) { }
     }
 }

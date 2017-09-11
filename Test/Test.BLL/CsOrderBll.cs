@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsOrderBll : BaseBll<CsOrder, CsOrderEnum, string>, ICsOrderBll
     {
-        public CsOrderBll() : base(new CsOrderDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsOrderDal _dal;
+        public CsOrderBll(CsOrderDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsOrderBll(IBaseDal<CsOrder, CsOrderEnum, string> dal) : base(dal) { }
     }
 }

@@ -1,9 +1,10 @@
 using Dapper;
-using System.Collections.Generic;
 using System.Linq;
+using System.Data;
 using Test.IDAL;
 using Test.Model.DBModel;
 using Test.Common;
+using System.Collections.Generic;
 using System.Text;
 
 namespace Test.DAL
@@ -14,16 +15,12 @@ namespace Test.DAL
     public partial class CsMenusDal : ICsMenusDal
     {
         public bool Exists(int primaryKey)
-        {
-            var strSql = "SELECT COUNT(1) FROM CrabShop.dbo.[CsMenus] WHERE 1 = @primaryKey";
-            var parameters = new { primaryKey };
-            return DbClient.Excute(strSql, parameters) > 0;
-        }
+            => DbClient.ExecuteScalar<int>("SELECT COUNT(1) FROM CrabShop.dbo.[CsMenus] WHERE 1 = @primaryKey", new { primaryKey }) > 0;
 
         public bool ExistsByWhere(string where)
             => DbClient.ExecuteScalar<int>($"SELECT COUNT(1) FROM CrabShop.dbo.[CsMenus] WHERE 1 = 1 {where};") > 0;
 
-        public int Add(CsMenus model)
+        public int Add(CsMenus model, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("INSERT INTO CrabShop.dbo.[CsMenus] (");
@@ -31,19 +28,19 @@ namespace Test.DAL
             strSql.Append(") VALUES (");
             strSql.Append("@MenuName,@MenuUrl,@MenuIcon,@MenuParId,@MenuState,@Remarks);");
             strSql.Append("SELECT @@IDENTITY");
-            return DbClient.ExecuteScalar<int>(strSql.ToString(), model);
+            return DbClient.ExecuteScalar<int>(strSql.ToString(), model, conn, transaction);
         }
 
-        public bool Update(CsMenus model)
+        public bool Update(CsMenus model, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("UPDATE CrabShop.dbo.[CsMenus] SET ");
             strSql.Append("MenuName = @MenuName,MenuUrl = @MenuUrl,MenuIcon = @MenuIcon,MenuParId = @MenuParId,MenuState = @MenuState,Remarks = @Remarks");
             strSql.Append(" WHERE MenuId = @MenuId");
-            return DbClient.Excute(strSql.ToString(), model) > 0;
+            return DbClient.Excute(strSql.ToString(), model, conn, transaction) > 0;
         }
 
-        public bool Update(Dictionary<CsMenusEnum, object> updates, string where)
+        public bool Update(Dictionary<CsMenusEnum, object> updates, string where, IDbConnection conn = null, IDbTransaction transaction = null)
         {
             var strSql = new StringBuilder();
             strSql.Append("UPDATE CrabShop.dbo.[CsMenus] SET ");
@@ -55,29 +52,20 @@ namespace Test.DAL
             }
             strSql.Remove(strSql.Length - 1, 1);
             strSql.Append($" WHERE 1=1 {where}");
-            return DbClient.Excute(strSql.ToString(), para) > 0;
+            return DbClient.Excute(strSql.ToString(), para, conn, transaction) > 0;
         }
 
-        public bool Delete(int primaryKey)
-        {
-            var strSql = "DELETE FROM CrabShop.dbo.[CsMenus] WHERE MenuId = @primaryKey";
-            return DbClient.Excute(strSql, new { primaryKey }) > 0;
-        }
+        public bool Delete(int primaryKey, IDbConnection conn = null, IDbTransaction transaction = null)
+            => DbClient.Excute("DELETE FROM CrabShop.dbo.[CsMenus] WHERE MenuId = @primaryKey", new { primaryKey }, conn, transaction) > 0;
 
-        public int DeleteByWhere(string where)
-            => DbClient.Excute($"DELETE FROM CrabShop.dbo.[CsMenus] WHERE 1 = 1 {where}");
+        public int DeleteByWhere(string where, IDbConnection conn = null, IDbTransaction transaction = null)
+            => DbClient.Excute($"DELETE FROM CrabShop.dbo.[CsMenus] WHERE 1 = 1 {where}", null, conn, transaction);
 
         public CsMenus GetModel(int primaryKey)
-        {
-            var strSql = "SELECT * FROM CrabShop.dbo.[CsMenus] WHERE MenuId = @primaryKey";
-            return DbClient.Query<CsMenus>(strSql, new { primaryKey }).FirstOrDefault();
-        }
+            => DbClient.Query<CsMenus>("SELECT * FROM CrabShop.dbo.[CsMenus] WHERE MenuId = @primaryKey", new { primaryKey }).FirstOrDefault();
 
         public List<CsMenus> GetModelList(string where)
-        {
-            var strSql = $"SELECT * FROM CrabShop.dbo.[CsMenus] WHERE 1 = 1 {where}";
-            return DbClient.Query<CsMenus>(strSql).ToList();
-        }
+            => DbClient.Query<CsMenus>($"SELECT * FROM CrabShop.dbo.[CsMenus] WHERE 1 = 1 {where}").ToList();
 
         public List<CsMenus> GetModelPage(CsMenusEnum order, string where, int pageIndex, int pageSize, out int total)
         {

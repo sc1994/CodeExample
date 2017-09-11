@@ -13,27 +13,27 @@ namespace Test.Model.DBModel
         /// <summary>
         /// 螃蟹商品编号
         /// </summary>
-        public int ProductId { get; set; }
+        public int ProductId { get; set; } = ToInt("");
 
         /// <summary>
         /// 螃蟹商品类型 1 大宗采购 2 包塘直补
         /// </summary>
-        public int ProductType { get; set; }
+        public int ProductType { get; set; } = ToInt("");
 
         /// <summary>
         /// 商品名称
         /// </summary>
-        public string ProductName { get; set; } = string.Empty;
+        public string ProductName { get; set; } = "";
 
         /// <summary>
         /// 商品重量
         /// </summary>
-        public decimal ProductWeight { get; set; }
+        public decimal ProductWeight { get; set; } = ToDecimal("");
 
         /// <summary>
         /// 商品状态 1表示正常 2表示下架
         /// </summary>
-        public int ProductState { get; set; }
+        public int ProductState { get; set; } = ToInt("");
 
     }
 

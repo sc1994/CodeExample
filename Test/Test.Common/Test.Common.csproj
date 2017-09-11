@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>0ecc576a-f7ec-44c8-be0b-605a3a9a895b</ProjectGuid>
+    <ProjectGuid>{0ECC576A-F7EC-44C8-BE0B-605A3A9A895B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test.Common</RootNamespace>
@@ -45,7 +45,6 @@
     <Reference Include="System.configuration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ConvertHelper.cs" />
     <Compile Include="SqlHelper.cs" />

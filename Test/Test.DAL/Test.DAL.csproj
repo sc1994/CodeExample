@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>e35a8819-9622-469f-9162-7daaac5d1712</ProjectGuid>
+    <ProjectGuid>{E35A8819-9622-469F-9162-7DAAAC5D1712}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Test.DAL</RootNamespace>
@@ -41,7 +41,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CsUsersDal.cs" />
     <Compile Include="CsUsersDal.Extend.cs" />

@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsPartsBll : BaseBll<CsParts, CsPartsEnum, object>, ICsPartsBll
     {
-        public CsPartsBll() : base(new CsPartsDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsPartsDal _dal;
+        public CsPartsBll(CsPartsDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsPartsBll(IBaseDal<CsParts, CsPartsEnum, object> dal) : base(dal) { }
     }
 }

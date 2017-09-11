@@ -10,8 +10,12 @@ namespace Test.BLL
     /// </summary>
     public class CsAddressBll : BaseBll<CsAddress, CsAddressEnum, int>, ICsAddressBll
     {
-        public CsAddressBll() : base(new CsAddressDal()) { }
+        // ReSharper disable once NotAccessedField.Local
+        private readonly CsAddressDal _dal;
+        public CsAddressBll(CsAddressDal dal) : base(dal)
+        {
+            _dal = dal;
+        }
 
-        public CsAddressBll(IBaseDal<CsAddress, CsAddressEnum, int> dal) : base(dal) { }
     }
 }
