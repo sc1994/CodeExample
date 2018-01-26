@@ -57,7 +57,9 @@
     <Compile Include="ConnectHelper.cs" />
     <Compile Include="ConvertHelper.cs" />
     <Compile Include="DateTimeHelper.cs" />
+    <Compile Include="ExpressionHelper.cs" />
     <Compile Include="HttpHelper.cs" />
+    <Compile Include="ListHelper.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="MapHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
