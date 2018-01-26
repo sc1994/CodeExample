@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Collections.Generic;
 
 namespace Utilities
 {
@@ -46,8 +46,7 @@ namespace Utilities
             return first.Compose(second, Expression.OrElse);
         }
 
-
-        private class ParameterRebinder : ExpressionVisitor
+        class ParameterRebinder : ExpressionVisitor
         {
             private readonly Dictionary<ParameterExpression, ParameterExpression> _map;
 
