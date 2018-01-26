@@ -218,7 +218,7 @@ namespace Cache
 		}
 
 		/// <summary>
-		/// 累加到Hash表
+		/// 累加到Hash表 // todo 有bug
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="key"></param>
@@ -232,13 +232,13 @@ namespace Cache
 			}
 		}
 
-		/// <summary>
-		/// 批量累加到Hash表
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="key"></param>
-		/// <param name="list"></param>
-		public void IncHash<T>(string key, List<T> list)
+        /// <summary>
+        /// 批量累加到Hash表 // todo 有bug
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="list"></param>
+        public void IncHash<T>(string key, List<T> list)
 		{
 			using (_redis)
 			{
