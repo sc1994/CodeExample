@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace Utilities
 {
-    public static class ConverHelper
+    public static class ConvertHelper
     {
         #region 基础类型转换
         public static int ToInt(this string that, int defult = 0)
@@ -311,15 +311,13 @@ namespace Utilities
         {
             if (ex == null)
             {
-                typeof(ConverHelper).LogInfo(msg);
+                typeof(ConvertHelper).LogInfo(msg);
             }
             else
             {
-                typeof(ConverHelper).LogError(ex, msg);
+                typeof(ConvertHelper).LogError(ex, msg);
             }
         }
         #endregion
     }
-
-    
 }
