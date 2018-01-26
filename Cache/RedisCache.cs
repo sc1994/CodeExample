@@ -79,7 +79,7 @@ namespace Cache
 		/// </summary>
 		/// <param name="key"></param>
 		/// <returns></returns>
-		public bool KeyDelete(string key)
+		public bool DeleteKey(string key)
 		{
 			using (_redis)
 			{
@@ -93,7 +93,7 @@ namespace Cache
 		/// </summary>
 		/// <param name="keys"></param>
 		/// <returns></returns>
-		public long KeyDelete(params string[] keys)
+		public long DeleteKey(params string[] keys)
 		{
 			using (_redis)
 			{
@@ -214,7 +214,6 @@ namespace Cache
 					listHashEntry.Add(new HashEntry(hashFields(item), json));
 				}
 				db.HashSet(key, listHashEntry.ToArray());
-				db.HashIncrement(key, list[0].ToJson());
 			}
 		}
 
@@ -234,11 +233,11 @@ namespace Cache
 		}
 
 		/// <summary>
-		/// 累加到Hash表
+		/// 批量累加到Hash表
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="key"></param>
-		/// <param name="item"></param>
+		/// <param name="list"></param>
 		public void IncHash<T>(string key, List<T> list)
 		{
 			using (_redis)

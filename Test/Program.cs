@@ -38,7 +38,7 @@ namespace Test
 							   LastName = "cheng3"
 						   }
 					   };
-			CacheProvider.RedisDefault.SetHash(CacheKeys.DefaultHashtKey, hash,person =>  person.Id.ToString());
+			CacheProvider.RedisDefault.SetHash(CacheKeys.DefaultHashtKey, hash, person => person.Id.ToString());
 		}
 	}
 }
