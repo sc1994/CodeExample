@@ -11,12 +11,11 @@ namespace Test
     {
         static void Main(string[] args)
         {
-            Expression<Func<Person, bool>> first =
-                x => x.FirstName == "sun";
+            var http = new HttpHelper();
+            var baidu = http.HttpGet("https://www.mingdao.com/chat");
 
-            first = first.And(x => x.LastName == "cheng");
-
-            Console.WriteLine(first.Body.ToString());
+            Console.WriteLine(baidu);
+            Console.ReadLine();
             //var model = new Person
             //{
             //    Id = Guid.NewGuid(),

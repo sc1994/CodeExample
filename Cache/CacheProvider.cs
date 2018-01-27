@@ -3,6 +3,9 @@
 
 namespace Cache
 {
+    /// <summary>
+    /// cache 持久化链接
+    /// </summary>
     public class CacheProvider
     {
         #region Redis

@@ -412,7 +412,6 @@ namespace Utilities
             }
         }
 
-
         public string UrlEncode(string str)
         {
             var sb = new StringBuilder();
@@ -455,8 +454,7 @@ namespace Utilities
             return cc;
         }
 
-
-        public void DebugCookies()
+         public void DebugCookies()
         {
             Trace.WriteLine("**********************BEGIN COOKIES*************************");
             foreach (Cookie c in _cookiecollection)
@@ -467,6 +465,5 @@ namespace Utilities
             }
             Trace.WriteLine("**********************END COOKIES*************************");
         }
-
     }
 }

@@ -14,19 +14,19 @@ namespace Utilities
     /// <typeparam name="T"></typeparam>
     public class SqlHelper<T> where T : class
     {
-        private readonly T _model = Activator.CreateInstance<T>();
+        private readonly Type _properties;
         private readonly string _tableName;
-        private readonly Dictionary<string, object> _updateList = new Dictionary<string, object>();
-        private readonly List<WhereDictionary> _whereList = new List<WhereDictionary>();
-        private readonly List<string> _updateStr = new List<string>();
-        private readonly List<string> _whereStr = new List<string>();
+        private readonly T _model = Activator.CreateInstance<T>();
         private readonly List<string> _showStr = new List<string>();
         private readonly List<string> _joinStr = new List<string>();
-        private readonly List<JoinDictionary> _joinList = new List<JoinDictionary>();
         private readonly List<string> _sortStr = new List<string>();
-        private readonly Dictionary<string, SortEnum> _sortList = new Dictionary<string, SortEnum>();
         private readonly List<string> _groupStr = new List<string>();
-        private readonly Type _properties;
+        private readonly List<string> _whereStr = new List<string>();
+        private readonly List<string> _updateStr = new List<string>();
+        private readonly List<JoinDictionary> _joinList = new List<JoinDictionary>();
+        private readonly List<WhereDictionary> _whereList = new List<WhereDictionary>();
+        private readonly Dictionary<string, object> _updateList = new Dictionary<string, object>();
+        private readonly Dictionary<string, SortEnum> _sortList = new Dictionary<string, SortEnum>();
 
         #region 构造函数
         /// <summary>
