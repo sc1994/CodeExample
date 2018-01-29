@@ -1,6 +1,8 @@
 ﻿using System;
-using Utilities;
+using System.Collections.Generic;
 using System.Web.Mvc;
+using Entity;
+using Cache;
 
 namespace Web.Controllers
 {
@@ -8,20 +10,56 @@ namespace Web.Controllers
     {
         public ActionResult Index()
         {
-            try
-            {
-                var a = "asda".ToBool();
-            }
-            catch (Exception e)
-            {
-                this.LogError(e, "asdasd");
-            }
+            var hash = new List<Person>
+                       {
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun",
+                               LastName = "cheng"
+                           },
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun2",
+                               LastName = "cheng2"
+                           },
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun3",
+                               LastName = "cheng3"
+                           }
+                       };
+            CacheProvider.RedisDefault.SetHash(CacheKeys.DefaultHashtKey, hash, person => person.Id.ToString());
 
             return View();
         }
 
         public ActionResult About()
         {
+            var hash = new List<Person>
+                       {
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun",
+                               LastName = "cheng"
+                           },
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun2",
+                               LastName = "cheng2"
+                           },
+                           new Person
+                           {
+                               Id = Guid.NewGuid(),
+                               FirstName = "sun3",
+                               LastName = "cheng3"
+                           }
+                       };
+            CacheProvider.RedisDefault1.SetHash(CacheKeys.DefaultHashtKey, hash, person => person.Id.ToString());
             ViewBag.Message = "Your application description page.";
             return View();
         }

@@ -258,6 +258,10 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Cache\Cache.csproj">
+      <Project>{8394cab0-2ca6-401e-b838-6aa04dfe3f49}</Project>
+      <Name>Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{e55583af-e9c1-4d58-9355-d8029d7039e4}</Project>
       <Name>Common</Name>
