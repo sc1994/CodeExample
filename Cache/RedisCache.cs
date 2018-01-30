@@ -7,229 +7,212 @@ using System.Collections.Generic;
 
 namespace Cache
 {
-    public class RedisCache
-    {
-        private readonly IDatabase _db;
-        private readonly string _connString;
+	public class RedisCache
+	{
+		private readonly IDatabase _db;
+		private readonly string _connString;
 
-        public RedisCache(string connString)
-        {
-            _connString = connString;
-        }
+		public RedisCache(string connString)
+		{
+			_connString = connString;
+		}
 
-        public RedisCache(string connString, int dbIndex)
-        {
-            _connString = connString;
-            _db = Redis.GetDatabase(dbIndex);
-        }
+		public RedisCache(string connString, int dbIndex)
+		{
+			_connString = connString;
+			_db = Redis.GetDatabase(dbIndex);
+		}
 
-        private static ConnectionMultiplexer _redis;
+		private static ConnectionMultiplexer _redis;
 
-        private ConnectionMultiplexer Redis
-        {
-            // ReSharper disable once FunctionRecursiveOnAllPaths
-            get
-            {
-                if (_redis == null)
-                {
-                    lock (_connString) // 以当前连接到的服务器为条件加锁
-                    {
-                        _redis = GetManager(_connString);
-                        return _redis;
-                    }
-                }
-                return _redis;
-            }
-        }
+		private ConnectionMultiplexer Redis
+		{
+			// ReSharper disable once FunctionRecursiveOnAllPaths
+			get
+			{
+				if (_redis == null)
+				{
+					lock (_connString) // 以当前连接到的服务器为条件加锁
+					{
+						_redis = GetManager(_connString);
+						return _redis;
+					}
+				}
+				return _redis;
+			}
+		}
 
-        private static ConnectionMultiplexer GetManager(string connString)
-        {
-            if (string.IsNullOrEmpty(connString))
-            {
-                typeof(RedisCache).LogInfo("connString is null or empty");
-                throw new Exception(nameof(connString));
-            }
-            return ConnectionMultiplexer.Connect(connString);
-        }
+		private static ConnectionMultiplexer GetManager(string connString)
+		{
+			if (string.IsNullOrEmpty(connString))
+			{
+				typeof(RedisCache).LogInfo("connString is null or empty");
+				throw new Exception(nameof(connString));
+			}
+			return ConnectionMultiplexer.Connect(connString);
+		}
 
-        /// <summary>
-        /// 获取Key
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public T Get<T>(string key)
-        {
-            return _db.StringGet(key).ToString().JsonToObject<T>();
-        }
+		#region Get
+		/// <summary>
+		/// 获取Key
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public T Get<T>(string key)
+		{
+			return _db.StringGet(key).ToString().JsonToObject<T>();
+		}
 
-        /// <summary>
-        /// 设置Key
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public bool Set<T>(string key, T value)
-        {
-            return _db.StringSet(key, value.ToJson());
-        }
+		/// <summary>
+		/// 是否存在Key
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool ExistsKey(string key)
+		{
+			return _db.KeyExists(key);
+		}
 
-        /// <summary>
-        /// 是否存在Key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public bool ExistsKey(string key)
-        {
-            return _db.KeyExists(key);
-        }
+		/// <summary>
+		/// 获取Hash所有值
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public List<T> GetHashAll<T>(string key)
+		{
+			var arr = _db.HashKeys(key);
+			return (from item in arr where !item.IsNullOrEmpty select item.ToString().JsonToObject<T>()).ToList();
+		}
 
-        /// <summary>
-        /// 数字累加
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="number"></param>
-        /// <returns></returns>
-        public double IncDouble(string key, double number)
-        {
-            return _db.StringIncrement(key, number);
-        }
+		/// <summary>
+		/// 获取Hash中的单个key的值
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="hasField">has字段</param>
+		/// <returns></returns>
+		public T GetHashKey<T>(string key, string hasField)
+		{
+			if (string.IsNullOrWhiteSpace(key) ||
+				string.IsNullOrWhiteSpace(hasField))
+			{
+				return default(T);
+			}
+			var value = _db.HashGet(key, hasField);
+			return !value.IsNullOrEmpty ? value.ToString().JsonToObject<T>() : default(T);
+		}
 
-        /// <summary>
-        /// 删除Key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public bool DeleteKey(string key)
-        {
-            return _db.KeyDelete(key);
-        }
+		/// <summary>
+		/// 获取Hash中的多个值
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="hashFields">has值</param>
+		/// <returns></returns>
+		public List<T> GetHashKey<T>(string key, List<RedisValue> hashFields)
+		{
+			var result = new List<T>();
+			if (key.IsNullOrEmpty() ||
+				hashFields.Count <= 0)
+			{
+				return result;
+			}
+			var value = _db.HashGet(key, hashFields.ToArray());
+			result.AddRange(from item in value where !item.IsNullOrEmpty select item.ToString().JsonToObject<T>());
+			return result;
+		}
+		#endregion
 
-        /// <summary>
-        /// 批量删除Key
-        /// </summary>
-        /// <param name="keys"></param>
-        /// <returns></returns>
-        public long DeleteKey(params string[] keys)
-        {
-            var that = keys.Select(x => new RedisKey().Append(x));
-            return _db.KeyDelete(that.ToArray());
-        }
+		#region Set
+		/// <summary>
+		/// 设置Key
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public bool Set<T>(string key, T value, DateTime endTime)
+		{
+			return _db.StringSet(key, value.ToJson(), endTime - DateTime.Now);
+		}
 
-        /// <summary>
-        /// 字符串累加
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public long IncString(string key, string value)
-        {
-            return _db.StringAppend(key, value);
-        }
+		/// <summary>
+		/// 设置Hash表(key已存在则累加到队列尾部)
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="key"></param>
+		/// <param name="list"></param>
+		/// <param name="hashFields">list中每个item的关键字段(比如Id)</param>
+		public void SetHash<T>(string key, List<T> list, Func<T, string> hashFields)
+		{
+			var listHashEntry = new List<HashEntry>();
+			foreach (var item in list)
+			{
+				var json = item.ToJson();
+				listHashEntry.Add(new HashEntry(hashFields(item), json));
+			}
+			_db.HashSet(key, listHashEntry.ToArray());
+		}
+		#endregion
 
-        /// <summary>
-        /// 重命名Key
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="newKey"></param>
-        /// <returns></returns>
-        public bool KeyRename(string key, string newKey)
-        {
-            return _db.KeyRename(key, newKey);
-        }
+		#region Update
+		/// <summary>
+		/// 字符串累加
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="value"></param>
+		/// <returns></returns>
+		public long IncString(string key, string value)
+		{
+			return _db.StringAppend(key, value);
+		}
 
-        /// <summary>
-        /// 获取Hash所有值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public List<T> GetHashAll<T>(string key)
-        {
-            var arr = _db.HashKeys(key);
-            return (from item in arr where !item.IsNullOrEmpty select item.ToString().JsonToObject<T>()).ToList();
-        }
+		/// <summary>
+		/// 数字累加
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="number"></param>
+		/// <returns></returns>
+		public double IncDouble(string key, double number)
+		{
+			return _db.StringIncrement(key, number);
+		}
 
-        /// <summary>
-        /// 获取Hash中的单个key的值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="hasField">has字段</param>
-        /// <returns></returns>
-        public T GetHashKey<T>(string key, string hasField)
-        {
-            if (string.IsNullOrWhiteSpace(key) ||
-                string.IsNullOrWhiteSpace(hasField))
-            {
-                return default(T);
-            }
-            var value = _db.HashGet(key, hasField);
-            return !value.IsNullOrEmpty ? value.ToString().JsonToObject<T>() : default(T);
-        }
+		/// <summary>
+		/// 重命名Key
+		/// </summary>
+		/// <param name="key"></param>
+		/// <param name="newKey"></param>
+		/// <returns></returns>
+		public bool KeyRename(string key, string newKey)
+		{
+			return _db.KeyRename(key, newKey);
+		}
+		#endregion
 
-        /// <summary>
-        /// 获取Hash中的多个值
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="hashFields">has值</param>
-        /// <returns></returns>
-        public List<T> GetHashKey<T>(string key, List<RedisValue> hashFields)
-        {
-            var result = new List<T>();
-            if (key.IsNullOrEmpty() ||
-                hashFields.Count <= 0)
-            {
-                return result;
-            }
-            var value = _db.HashGet(key, hashFields.ToArray());
-            result.AddRange(from item in value where !item.IsNullOrEmpty select item.ToString().JsonToObject<T>());
-            return result;
-        }
+		#region Delete
+		/// <summary>
+		/// 删除Key
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public bool DeleteKey(string key)
+		{
+			return _db.KeyDelete(key);
+		}
 
-        /// <summary>
-        /// 设置Hash表
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="list"></param>
-        /// <param name="hashFields">list中每个item的关键字段(比如Id)</param>
-        public void SetHash<T>(string key, List<T> list, Func<T, string> hashFields)
-        {
-            var listHashEntry = new List<HashEntry>();
-            foreach (var item in list)
-            {
-                var json = item.ToJson();
-                listHashEntry.Add(new HashEntry(hashFields(item), json));
-            }
-            _db.HashSet(key, listHashEntry.ToArray());
-        }
-
-        /// <summary>
-        /// 累加到Hash表 // todo 有bug
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="item"></param>
-        public void IncHash<T>(string key, T item)
-        {
-            _db.HashIncrement(key, item.ToJson());
-        }
-
-        /// <summary>
-        /// 批量累加到Hash表 // todo 有bug
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <param name="list"></param>
-        public void IncHash<T>(string key, List<T> list)
-        {
-            foreach (var item in list)
-            {
-                _db.HashIncrement(key, item.ToJson());
-            }
-        }
-    }
+		/// <summary>
+		/// 批量删除Key
+		/// </summary>
+		/// <param name="keys"></param>
+		/// <returns></returns>
+		public long DeleteKey(params string[] keys)
+		{
+			var that = keys.Select(x => new RedisKey().Append(x));
+			return _db.KeyDelete(that.ToArray());
+		}
+		#endregion
+	}
 }
