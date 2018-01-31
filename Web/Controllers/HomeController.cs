@@ -59,7 +59,7 @@ namespace Web.Controllers
                                LastName = "cheng3"
                            }
                        };
-            CacheProvider.RedisDefault1.SetHash(CacheKeys.DefaultHashtKey, hash, person => person.Id.ToString());
+            CacheProvider.RedisDefault.SetHash(CacheKeys.DefaultHashtKey, hash, person => person.Id.ToString());
             ViewBag.Message = "Your application description page.";
             return View();
         }

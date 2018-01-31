@@ -67,6 +67,7 @@
     <Compile Include="SqlHelper.cs" />
     <Compile Include="SqlServerClient.cs" />
     <Compile Include="StringHelper.cs" />
+    <Compile Include="WeChatHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

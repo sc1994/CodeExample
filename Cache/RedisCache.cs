@@ -214,5 +214,9 @@ namespace Cache
 			return _db.KeyDelete(that.ToArray());
 		}
 		#endregion
+
+		#region 订阅 & 发表
+		// todo 扩展 date: 2018年1月30日
+		#endregion
 	}
 }
