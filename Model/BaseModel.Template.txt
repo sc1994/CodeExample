@@ -1,0 +1,13 @@
+﻿namespace {0}
+{
+	public class BaseModel
+	{
+		public static string PrimaryKey { get; private set; }
+		public static string IdentityKey { get; private set; }
+		public BaseModel(string primaryKey, string identityKey)
+		{
+			PrimaryKey = primaryKey;
+			IdentityKey = identityKey;
+		}
+	}
+}

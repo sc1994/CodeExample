@@ -1,8 +1,8 @@
-﻿using DAL;
-using Model;
+﻿using {0}
+using {1}
 using System.Collections.Generic;
 
-namespace Business
+namespace {3}
 {
 	public class BaseBussion<TModel, TEnum, TKeyType> : IBaseDal<TModel, TEnum, TKeyType> where TModel : BaseModel
 	{
