@@ -1,0 +1,13 @@
+﻿using Nelibur.ObjectMapper;
+
+namespace {0}
+{
+    public static class MapHelper
+    {
+        public static TToEntity MapTo<TFromEntity, TToEntity>(this TFromEntity that) where TFromEntity : class 
+                                                                                     where TToEntity : class
+        {
+            return TinyMapper.Map<TToEntity>(that);
+        }
+    }
+}

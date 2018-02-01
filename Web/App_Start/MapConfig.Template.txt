@@ -1,6 +1,6 @@
 ﻿using Nelibur.ObjectMapper;
 
-namespace Web
+namespace {0}
 {
     public class MapConfig
     {

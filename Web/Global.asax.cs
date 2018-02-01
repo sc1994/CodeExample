@@ -14,7 +14,7 @@ namespace Web
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 	        log4net.Config.XmlConfigurator.Configure(new System.IO.FileInfo(Server.MapPath("~/App_Data/log4net.config")));
 			InjectionConfig.Init();
-            MapConfig.Init();
+            MapConfig.Init(); //todo
         }
     }
 }
