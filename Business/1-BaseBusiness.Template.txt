@@ -1,5 +1,5 @@
-﻿using {0}
-using {1}
+﻿using {0};
+using {1};
 using System.Collections.Generic;
 
 namespace {3}

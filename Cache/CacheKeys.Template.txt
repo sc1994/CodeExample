@@ -1,4 +1,4 @@
-﻿namespace Cache
+﻿namespace {0}
 {
 	public class CacheKeys
 	{

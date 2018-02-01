@@ -1,11 +1,11 @@
 ﻿using System;
-using Utilities;
 using System.Linq;
 using StackExchange.Redis;
 using System.Collections.Generic;
+using {0};
 #pragma warning disable 649
 
-namespace Cache
+namespace {1}
 {
 	public class RedisCache
 	{
