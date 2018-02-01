@@ -1,12 +1,11 @@
 ﻿using Model;
 using System;
 using Utilities;
-using IBaseSqlServer;
 using System.Collections.Generic;
 
 namespace DAL
 {
-	public class CartDal : IBaseSqlServer<Cart, CartEnum, int>
+	public class CartDal : IBaseDal<Cart, CartEnum, int>
 	{
 		private static readonly Lazy<CartDal> Lazy = new Lazy<CartDal>(() => new CartDal());
 
@@ -14,7 +13,7 @@ namespace DAL
 
 		public bool Exists(int primaryKey)
 		{
-			Console.WriteLine(primaryKey);
+			LogHelper.UserLog("哈哈哈哈哈哈哈哈哈哈哈哈哈");
 			return false;
 		}
 

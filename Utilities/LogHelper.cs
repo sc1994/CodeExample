@@ -8,7 +8,7 @@ namespace Utilities
 {
 	public static class LogHelper
 	{
-		private static readonly string DefaultFilePath = AppDomain.CurrentDomain.BaseDirectory + "../../UserLog";
+		private static readonly string DefaultFilePath = AppDomain.CurrentDomain.BaseDirectory + "/UserLog/";
 		private static readonly Dictionary<string, string> HashFiles = new Dictionary<string, string>();
 
 		public static void LogError<T>(this T that, Exception ex, string message = null)

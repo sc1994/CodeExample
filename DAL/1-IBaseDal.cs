@@ -1,10 +1,9 @@
 ﻿using Model;
 using System.Collections.Generic;
 
-namespace IBussiness
+namespace DAL
 {
-	public interface IBaseBussiness<TModel, TEnum, TKeyType> 
-		where TModel : BaseModel
+	public interface IBaseDal<TModel, TEnum, TKeyType> where TModel : BaseModel
 	{
 		bool Exists(TKeyType primaryKey);
 

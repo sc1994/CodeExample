@@ -1,15 +1,15 @@
-﻿using Model;
-using IBaseSqlServer;
+﻿using DAL;
+using Model;
 using System.Collections.Generic;
 
 namespace Business
 {
-	public class BaseBussion<TModel, TEmun, TKeyType> : IBaseSqlServer<TModel, TEmun, TKeyType>
+	public class BaseBussion<TModel, TEmun, TKeyType> : IBaseDal<TModel, TEmun, TKeyType>
 														where TModel : BaseModel
 	{
-		protected IBaseSqlServer<TModel, TEmun, TKeyType> Dal { get; set; }
+		protected IBaseDal<TModel, TEmun, TKeyType> Dal { get; set; }
 
-		public BaseBussion(IBaseSqlServer<TModel, TEmun, TKeyType> dal)
+		public BaseBussion(IBaseDal<TModel, TEmun, TKeyType> dal)
 		{
 			Dal = dal;
 		}
