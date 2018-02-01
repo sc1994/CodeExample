@@ -46,9 +46,25 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Business\Business.csproj">
+      <Project>{64a9bbf3-ba1f-4806-8c65-147273b69389}</Project>
+      <Name>Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Cache\Cache.csproj">
+      <Project>{8394cab0-2ca6-401e-b838-6aa04dfe3f49}</Project>
+      <Name>Cache</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Entity\Entity.csproj">
       <Project>{f0592f2f-b30c-4313-bb1b-231875d6b9d6}</Project>
       <Name>Entity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{7da9067a-d21e-42a5-bc25-565ede72ff85}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{17aa5eb8-58ea-4141-9312-4d02e01d1565}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
