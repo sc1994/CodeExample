@@ -13,7 +13,10 @@ namespace Web
 			builder.RegisterControllers(Assembly.GetExecutingAssembly())
 				   .PropertiesAutowired()
 				   .InstancePerLifetimeScope();
+
+			builder.RegisterAssemblyTypes(Assembly.Load("Factory"));
 			builder.RegisterAssemblyTypes(Assembly.Load("Business"));
+
 			var container = builder.Build();
 			DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
 		}

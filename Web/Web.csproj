@@ -298,6 +298,10 @@
       <Project>{f0592f2f-b30c-4313-bb1b-231875d6b9d6}</Project>
       <Name>Entity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Factory\Factory.csproj">
+      <Project>{2f1239f6-a6e8-4215-a85b-7442bbbba266}</Project>
+      <Name>Factory</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{7da9067a-d21e-42a5-bc25-565ede72ff85}</Project>
       <Name>Model</Name>

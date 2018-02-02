@@ -69,5 +69,20 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="WeChatHelper.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="ConnectHelper.Template.txt" />
+    <Content Include="ConvertHelper.Template.txt" />
+    <Content Include="DateTimeHelper.Template.txt" />
+    <Content Include="ExpressionHelper.Template.txt" />
+    <Content Include="HttpHelper.Template.txt" />
+    <Content Include="ListHelper.Template.txt" />
+    <Content Include="LogHelper.Template.txt" />
+    <Content Include="MapHelper.Template.txt" />
+    <Content Include="SecurityHelper.Template.txt" />
+    <Content Include="SqlHelper.Template.txt" />
+    <Content Include="SqlServerClient.Template.txt" />
+    <Content Include="StringHelper.Template.txt" />
+    <Content Include="WeChatHelper.Template.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
