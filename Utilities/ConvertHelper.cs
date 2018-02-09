@@ -17,7 +17,7 @@ namespace Utilities
         #region 基础类型转换
         public static int ToInt(this string that, int defult = 0)
         {
-            if (Regex.IsMatch(that, @"^-?\d+$"))
+            if (!Regex.IsMatch(that, @"^-?\d+$"))
             {
                 Log($"\"{that}\" is not int");
                 return defult;
@@ -96,7 +96,7 @@ namespace Utilities
 
         public static double ToDouble(this string that, double defult = 0)
         {
-            if (Regex.IsMatch(that, @"^(-?\d+)(\.\d+)?$"))
+            if (!Regex.IsMatch(that, @"^(-?\d+)(\.\d+)?$"))
             {
                 Log($"\"{that}\" is not double");
                 return defult;
@@ -127,7 +127,7 @@ namespace Utilities
 
         public static decimal ToDecimal(this string that, decimal defult = 0)
         {
-            if (Regex.IsMatch("", ""))
+            if (!Regex.IsMatch("", ""))
             {
                 Log($"\"{that}\" is not decimal");
                 return defult;
@@ -158,7 +158,7 @@ namespace Utilities
 
         public static DateTime ToDate(this string that)
         {
-            if (Regex.IsMatch(that,
+            if (!Regex.IsMatch(that,
                 @"^(?:(?!0000)[0-9]{4}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-8])|(?:0[13-9]|1[0-2])-(?:29|30)|(?:0[13578]|1[02])-31)|(?:[0-9]{2}(?:0[48]|[2468][048]|[13579][26])|(?:0[48]|[2468][048]|[13579][26])00)-02-29)$")
             )
             {
